@@ -1,0 +1,4 @@
+- Fixed Input Length in Pokemon Party
+- Ensured egg block
+- fixed broken caughtAttr in 2 places
+- fixed redundant generations of .json's

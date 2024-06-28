@@ -1,20 +1,27 @@
 # pyRogue
-> ## **pyRogue** is a educational project. <img src="https://img.shields.io/badge/Status-Working-green">
+> ## **pyRogue** is a **educational** project. 
+<img src="https://img.shields.io/badge/Make_sure_to_mark_with_a-Star_<3-Red">
+
+Based on the Source Code of pokerogue.net - https://github.com/pagefaultgames/pokerogue
+> In compliance with Pokerogue's License this project here is also released under AGPL3.
 
 ![Preview Image](.github/previews/main.png)
+![Preview Image](.github/previews/tool.png)
 
-[Regarding Bans and Limited Accounts](https://github.com/RogueEdit/onlineRogueEditor?tab=readme-ov-file#regarding-bans-and-limited-accounts)
+[Regarding Bans and Limited Accounts - actions with this tool can cause you to be limited.](https://github.com/RogueEdit/onlineRogueEditor?tab=readme-ov-file#regarding-bans-and-limited-accounts)
 
 # List of content
-- [Foreword](https://github.com/RogueEdit/onlineRogueEditor?tab=readme-ov-file#important-foreword)
+- [Important Foreword](https://github.com/RogueEdit/onlineRogueEditor?tab=readme-ov-file#important-foreword)
 - [FAQ](https://github.com/RogueEdit/onlineRogueEditor?tab=readme-ov-file#faq)
 - [How to use](https://github.com/RogueEdit/onlineRogueEditor?tab=readme-ov-file#how-to-use-the-tool)
+- [How to run from code](https://github.com/RogueEdit/onlineRogueEditor?tab=readme-ov-file#how-to-run-from-code)
 - [License](https://github.com/RogueEdit/onlineRogueEditor?tab=readme-ov-file#license)
 - [Features](https://github.com/RogueEdit/onlineRogueEditor?tab=readme-ov-file#editor-features)
-- [How to run from code](https://github.com/RogueEdit/onlineRogueEditor?tab=readme-ov-file#how-to-run-from-code)
 - [Regarding Bans and Limited Accounts](https://github.com/RogueEdit/onlineRogueEditor?tab=readme-ov-file#regarding-bans-and-limited-accounts)
 
 ## Important foreword
+
+We learned enough about freezing python to binarys so from here on out it will be source code only.
 
 We will not sent you any files or contact you about anything. You can see who contributed and everything regarding us will be only done on GitHub. We will not contact you in any matter or will send you files. There are scammers out there. Here you can read the full source code, compile it from scratch and such or download a VT-checked official release.
 
@@ -35,43 +42,44 @@ Attention: When ever this tool detects you are trying to manipulate a daily seed
 - Where can i donate?
   - We will not accept any money or any form of payment. If you want to help then only by contributing.
 
-- Why are some features limited?
-  - In our core we don't like cheating. This is and will be mostly for educational purposes, if you want to edit your money and such in daily runs theres other options. We deny any changes made to gameMode 3 which is daily seeded runs.
-
 ## How to use the tool
 
-- Step 1: Download the correct compiled up2date version
-- Step 2: Extract the archived data you downloaded
-- Step 3: Navigate into the compiled/ folder and launch `pyRogue-[yourOperatingSystem]`
-- Step 4: Enter your login data. Your password is in a hidden field. You are entering despite it doesnt look like it. Just login!
-- Step 5: Use any actions directed by the tool
-- Step 5.5: You also can edit all your jsons manually and afterwards update to server
-- Step 6: Update all to server (yellow marked entry: Use when Done)
+- **Step 1:** Download the correct compiled up2date version
+- **Step 2:** Extract the archived data you downloaded
+- **Step 3:** Navigate into the compiled/ folder and launch `pyRogue-[yourOperatingSystem]`
+- **Step 3.5:** Log out of pokerouge, do not login or interfere while editing.
+- **Step 4:** Enter your login data. Your password is in a hidden field. You are entering despite it doesnt look like it. Just login!
+- **Step 5:** Use any actions from the menu
+  - **Step 5.5:** You also can edit all your jsons manually and afterwards update to server
+- **Step 6:** Update all to server (yellow marked entry: Use when Done)
+
+## How to run from code
+- Install python
+- Download the source code
+- Extract the source code
+- Open a terminal, navigate into your `[extracted_folder]/src/`
+- Install all the requirements using python according to setup
+  - `python3 -m pip install -r requirements.txt`
+- Now you should be able to run main.py
+  - `python3 main.py`
+
 
 ## License
 
-- If you want to use the code in any manner feel free to do so but make sure you can see immediately its not the official Repo. If you wanna fork it we ask you to change the title in the readme.md -  but if you want to use it anywhere public, lets say replit and such or you wanna add onto this code you have to include all author-headers and in accordance with GPL you also need to keep the license and cannot change it but are free to do everything aslong as you keep the statement before true and our headers. We also prohibit you to make any money of it and we also never will. TLDR; Keep the notice and do what you want even with advanced code but make sure it doesnt look like our program.
+- See license document and credit headers. 
  
 ## Editor Features
-
 - Autocomplete recomendations
 
 ![Preview Image](.github/previews/autocomplete.png)
-
-- When encountering multiple 403's can rebuild headers from remote source *NEW*
-- Extensive logging for easy debug
+- **Extensive logging for easy debug in log file
 - Two login logics to provide some fallbacks
-
 - When logging in it will automatically create backups for you.
-  - You can restore backups easily see preview above
-
-
+- You can restore backups easily see preview above
 - Load data from server
   - This will fetch the trainer.json containing your account save data
-
 - Load Save-slot data from server
   - This will fetch slot_{digit}.json containing data about a current run
-
 - Edit a starter - This will ask you to take multiple inputs:
   - Unlock all hidden forms? (Dressed Peekachu etc.)
   - Should it be shiny? (T1, T2, T3)
@@ -90,8 +98,6 @@ Attention: When ever this tool detects you are trying to manipulate a daily seed
 
 - Modify the number of egg-tickets you have
   - This allows you to set the amount of egg gacha tickets you have of every tier
-  - due to changes on PokeRoGue's Site this is now limited to certain amounts.
-  - This was reverted; https://github.com/pagefaultgames/rogueserver/commit/0526c7a0f197ecec009cbd59b9e07cab00b01a44 but we still keep it limited.
 
 - Edit a pokemon in your party
   - Let's you edit moves, species and level of a Pokemon in your team. It let's you set it shiny and its variant and makes it 6 IVs
@@ -126,19 +132,12 @@ Attention: When ever this tool detects you are trying to manipulate a daily seed
 
 - Propper logging in case you need to troubleshoot
 
-## How to run from code
- - Install python
- - Download the source code
- - Extract the source code
- - Open a terminal, navigate into your `[extracted_folder]/src/`
- - Install all the requirements using python according to setup
-   - `python3 -m pip install -r requirements.txt`
- - Now you should be able to run main.py
-   - `python3 main.py`
+- Item Editor
+![Preview Image](.github/previews/itemEditor.png)
 
 ## Regarding Bans and Limited Accounts
 https://www.reddit.com/r/pokerogue/comments/1d8hncf/cheats_and_exploits_post_followup_bannable/
-https://www.reddit.com/r/pokerogue/comments/1d8ldlw/a_cheating_and_account_deletionwipe_followup/
 
+https://www.reddit.com/r/pokerogue/comments/1d8ldlw/a_cheating_and_account_deletionwipe_followup/
 
 <meta name="keywords" content="pokerogue, pokerogue save editor, pokerogue, rogueEditor, free, gacha, ticket, tickets, egg, eggs, shiny, save, edit, pokemon, unlimited, hack, hacks, cheat, cheats, trainer, table, pokedex, dex, wave, money, level, levels, iv, ivs, stat, stats, item, items, api, mod, mods, tool, tools, education, python">
