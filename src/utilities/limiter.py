@@ -63,7 +63,7 @@ class Limiter:
         >>> limiter = Limiter(lockout_period=60)
         >>> @limiter.lockout
         >>> def my_function():
-        >>>     print("Function executed.")
+        >>>     print("函数已执行。")
 
     Output examples:
         - Prints a message if the function is called within the lockout period.
@@ -113,7 +113,7 @@ class Limiter:
             >>> limiter = Limiter(lockout_period=60)
             >>> @limiter.lockout
             >>> def my_function():
-            >>>     print("Function executed.")
+            >>>     print("函数已执行。")
 
         Modules:
             - functools: Provides utilities for higher-order functions, particularly for creating decorators.
@@ -126,7 +126,7 @@ class Limiter:
             laxtExecTime = self._fh_getLastExecTime(funcName)
             currentTime = time.time()
             if currentTime - laxtExecTime < self.lockoutPeriod:
-                cFormatter.print(Color.RED, f'{funcName} is rate limited. You can only do this every {self.lockoutPeriod} seconds!', isLogging=True)
+                cFormatter.print(Color.RED, f'{funcName}是速率限制的。您只能每{self.lockoutPeriod} 秒执行此操作!', isLogging=True)
                 return None
             else:
                 result = func(*args, **kwargs)

@@ -63,50 +63,50 @@ def m_executeOptions(choice_index, valid_choices):
 @handle_operation_exceptions
 def m_mainMenu(rogue, editOffline: bool = False):
     title = f'{config.title}>'
-    useWhenDone = f'{Fore.LIGHTYELLOW_EX}(Use when Done)'
-    reworked = f'{Fore.GREEN}(REWORKED)'
+    useWhenDone = f'{Fore.LIGHTYELLOW_EX}(完成后使用)'
+    reworked = f'{Fore.GREEN}(重构)'
 
     term = [
         (title, 'title'),
-        ('Account Actions', 'category'),
-        ((f'{Fore.YELLOW}Create a backup', reworked), rogue.f_createBackup),
-        ((f'{Fore.YELLOW}Recover your backup', reworked), rogue.f_restoreBackup),
-        (('Load Game-Data from server', reworked), rogue.f_getGameData),
-        (('Change save-slot to edit', reworked), rogue.f_changeSaveSlot),
-        (('Edit account stats', reworked), rogue.f_editAccountStats),
+        ('账户操作', 'category'),
+        ((f'{Fore.YELLOW}创建备份', reworked), rogue.f_createBackup),
+        ((f'{Fore.YELLOW}恢复备份', reworked), rogue.f_restoreBackup),
+        (('从服务器加载游戏数据', reworked), rogue.f_getGameData),
+        (('编辑存档数据', reworked), rogue.f_changeSaveSlot),
+        (('编辑帐户统计信息', reworked), rogue.f_editAccountStats),
 
-        ('Edits', 'category'),
-        ((f'{Fore.YELLOW}Create eggs', reworked), rogue.f_addEggsGenerator),
-        ((f'Edit {Fore.YELLOW}Egg-hatch durations', reworked), rogue.f_editHatchWaves),
-        ((f'Edit {Fore.YELLOW}egg-tickets', reworked), rogue.f_addTicket),
-        ((f'Edit {Fore.YELLOW}a starter', reworked), rogue.f_editStarter),
-        ((f'Edit {Fore.YELLOW}candies{Style.RESET_ALL} on a starter', reworked), rogue.f_addCandies),
+        ('编辑', 'category'),
+        ((f'{Fore.YELLOW}创建蛋', reworked), rogue.f_addEggsGenerator),
+        ((f'编辑 {Fore.YELLOW}蛋孵化时间', reworked), rogue.f_editHatchWaves),
+        ((f'编辑 {Fore.YELLOW}扭蛋券', reworked), rogue.f_addTicket),
+        ((f'编辑 {Fore.YELLOW}一个初始宝可梦', reworked), rogue.f_editStarter),
+        ((f'编辑 {Fore.YELLOW}某个初始宝可梦的{Style.RESET_ALL}糖果', reworked), rogue.f_addCandies),
 
-        ('Unlocks', 'category'),
-        ((f'Unlock {Fore.YELLOW}achievements', reworked), rogue.f_unlockAchievements),
-        ((f'Unlock {Fore.YELLOW}vouchers', reworked), rogue.f_unlockVouchers),
-        ((f'Unlock {Fore.YELLOW}all starters', reworked), rogue.f_unlockStarters),
-        ((f'Unlock {Fore.YELLOW}all gamemodes', reworked), rogue.f_unlockGamemodes),
-        ((f'Unlock {Fore.YELLOW}Everything', reworked), rogue.f_unlockAllCombined),
+        ('解锁', 'category'),
+        ((f'解锁 {Fore.YELLOW}成就', reworked), rogue.f_unlockAchievements),
+        ((f'解锁 {Fore.YELLOW}兑换券', reworked), rogue.f_unlockVouchers),
+        ((f'解锁 {Fore.YELLOW}所有初始宝可梦', reworked), rogue.f_unlockStarters),
+        ((f'解锁 {Fore.YELLOW}所有模式', reworked), rogue.f_unlockGamemodes),
+        ((f'解锁 {Fore.YELLOW}所有', reworked), rogue.f_unlockAllCombined),
 
-        ('Session Data Actions', 'category'),
-        ((f'Edit {Fore.YELLOW}current Pokemon Party', reworked), rogue.f_editPokemonParty),
-        ((f'Edit {Fore.YELLOW}money amount', reworked), rogue.f_editMoney),
-        ((f'Edit {Fore.YELLOW}pokeballs amount', reworked), rogue.f_editPokeballs),
-        ((f'Edit {Fore.YELLOW}current biome', reworked), rogue.f_editBiome),
-        ((f'Edit {Fore.YELLOW}Items', reworked), rogue.f_submenuItemEditor),
+        ('会话数据操作', 'category'),
+        ((f'Edit {Fore.YELLOW}当前的宝可梦派对', reworked), rogue.f_editPokemonParty),
+        ((f'Edit {Fore.YELLOW}金额', reworked), rogue.f_editMoney),
+        ((f'Edit {Fore.YELLOW}精灵球数量', reworked), rogue.f_editPokeballs),
+        ((f'Edit {Fore.YELLOW}当前生物群落', reworked), rogue.f_editBiome),
+        ((f'Edit {Fore.YELLOW}物品', reworked), rogue.f_submenuItemEditor),
 
-        ('Print game information', 'category'),
-        (('Show all Pokemon ID', reworked), rogue.legacy_pokedex),
-        (('Show all Biome IDs', reworked), rogue.legacy_printBiomes),
-        (('Show all Move IDs', reworked), rogue.legacy_moves),
-        (('Show all Vouchers IDs', reworked), rogue.legacy_vouchers),
-        (('Show all Natures IDs', reworked), rogue.legacy_natures),
-        (('Show all NaturesSlot IDs', reworked), rogue.legacy_natureSlot),
+        ('打印游戏信息', 'category'),
+        (('显示所有宝可梦ID', reworked), rogue.legacy_pokedex),
+        (('显示所有生物群落ID', reworked), rogue.legacy_printBiomes),
+        (('显示所有招式ID', reworked), rogue.legacy_moves),
+        (('显示所有兑换券ID', reworked), rogue.legacy_vouchers),
+        (('显示所有性格ID', reworked), rogue.legacy_natures),
+        (('显示所有性格槽ID', reworked), rogue.legacy_natureSlot),
 
-        ('You can always edit your JSON manually as well!', 'helper'),
-        ((f'{Fore.YELLOW}Save data and upload to the Server', useWhenDone), rogue.f_updateAllToServer),
-        (('Print help and program information', ''), config.f_printHelp),
+        ('您也可以随时手动编辑 JSON！', 'helper'),
+        ((f'{Fore.YELLOW}保存数据并上传到服务器', useWhenDone), rogue.f_updateAllToServer),
+        (('打印帮助和程序信息', ''), config.f_printHelp),
         (('Logout', ''), rogue.f_logout),
         (title, 'title'),
     ]
@@ -115,14 +115,14 @@ def m_mainMenu(rogue, editOffline: bool = False):
         term = [entry for entry in term if entry[1] != rogue.f_updateAllToServer]
         term = [entry for entry in term if entry[1] != rogue.f_getGameData]
         term = [entry for entry in term if entry[1] != rogue.f_logout]
-        replacement_entry = ('Offline-Edits are directly applied', 'helper')
-        term = [replacement_entry if entry == ('You can always edit your JSON manually as well!', 'helper') else entry for entry in term]
+        replacement_entry = ('直接应用离线编辑', 'helper')
+        term = [replacement_entry if entry == ('您也可以随时手动编辑 JSON！', 'helper') else entry for entry in term]
 
     try:
         while True:
             validChoices = cFormatter.m_initializeMenu(term)
             fh_printMessageBuffer()
-            userInput = input('Command: ').strip().lower()
+            userInput = input('命令:').strip().lower()
 
             if userInput == 'exit':
                 raise KeyboardInterrupt
@@ -130,11 +130,11 @@ def m_mainMenu(rogue, editOffline: bool = False):
                 choiceIndex = int(userInput)
                 m_executeOptions(choiceIndex, validChoices)
             else:
-                cFormatter.print(Color.INFO, 'Invalid input. Please enter a number.')
+                cFormatter.print(Color.INFO, '输入无效。请输入一个数字。')
     except OperationSuccessful as os:
-        cFormatter.print(Color.DEBUG, f'Operation successful: {os}')
+        cFormatter.print(Color.DEBUG, f'操作成功：{os}')
     except KeyboardInterrupt:
-        cFormatter.print(Color.DEBUG, '\nProgram interrupted by user.')
+        cFormatter.print(Color.DEBUG, '\n程序被用户中断。')
         exit()
 
 @handle_operation_exceptions
@@ -146,14 +146,14 @@ def main():
         while True:
             try:
                 config.f_printWelcomeText()
-                loginChoice = int(input('Please choose a method of logging in: '))
+                loginChoice = int(input('请选择一种登录方式：'))
                 if loginChoice not in [1, 2, 3, 4]:
-                    cFormatter.print(Color.DEBUG, 'Please choose a valid option.')
+                    cFormatter.print(Color.DEBUG, '请选择一个有效的选项。')
                     continue  # Prompt user again if choice is not valid
 
                 if loginChoice != 4:
-                    username = input('Username: ')
-                    password = getpass.getpass('Password (password is hidden): ')
+                    username = input('用户名: ')
+                    password = getpass.getpass('密码（密码隐藏）：')
 
 
                 session = requests.Session()
@@ -161,18 +161,18 @@ def main():
                     login = requestsLogic(username, password)
                     try:
                         if login.login():
-                            cFormatter.print(Color.INFO, f'Logged in as: {config.f_anonymizeName(username)}')
+                            cFormatter.print(Color.INFO, f'登录身份：{config.f_anonymizeName(username)}')
                             session.cookies.set('pokerogue_sessionId', login.sessionId, domain='pokerogue.net')
                             rogue = Rogue(session, login.token, login.sessionId)
                             break
                     except Exception as e:
-                        cFormatter.print(Color.CRITICAL, f'Something went wrong. {e}', isLogging=True)
+                        cFormatter.print(Color.CRITICAL, f'出了点问题。{e}', isLogging=True)
 
                 elif loginChoice in [2, 3]:
                     if loginChoice == 3:
-                        cFormatter.print(Color.INFO, 'Do not close your browser and do not browse in the game!')
-                        cFormatter.print(Color.INFO, 'Do not close your browser and do not browse in the game!')
-                        cFormatter.print(Color.INFO, 'Do not close your browser and do not browse in the game!')
+                        cFormatter.print(Color.INFO, '不要关闭浏览器，不要操作游戏界面！')
+                        cFormatter.print(Color.INFO, '不要关闭浏览器，不要操作游戏界面！')
+                        cFormatter.print(Color.INFO, '不要关闭浏览器，不要操作游戏界面！')
                     seleniumLogic = SeleniumLogic(username, password, 120, useScripts=(loginChoice == 3))
                     sessionId, token, driver = seleniumLogic.logic()
 
@@ -180,12 +180,12 @@ def main():
                         if not driver:
                             driver = None
                             print('Driver error')
-                        cFormatter.print(Color.INFO, f'Logged in as: {config.f_anonymizeName(username)}')
+                        cFormatter.print(Color.INFO, f'登录身份：{config.f_anonymizeName(username)}')
                         session.cookies.set('pokerogue_sessionId', sessionId, domain='pokerogue.net')
                         rogue = Rogue(session, auth_token=token, clientSessionId=sessionId, driver=driver, useScripts=(loginChoice == 3))
                         break
                     else:
-                        cFormatter.print(Color.CRITICAL, 'Failed to retrieve necessary authentication data from Selenium.')
+                        cFormatter.print(Color.CRITICAL, '无法从 Selenium 检索必要的身份验证数据。')
 
 
                 elif loginChoice == 4:
@@ -193,7 +193,7 @@ def main():
                     break
 
                 else:
-                    cFormatter.print(Color.CRITICAL, 'Invalid choice. Please choose a valid method.')
+                    cFormatter.print(Color.CRITICAL, '无效的选择。请选择有效的方法。')
 
             except KeyboardInterrupt:
                 exit()
@@ -204,15 +204,15 @@ if __name__ == '__main__':
         try:
             main()
         except OperationSuccessful as os:
-            cFormatter.print(Color.DEBUG, f'Operation successful: {os}')
+            cFormatter.print(Color.DEBUG, f'操作成功：{os}')
         except KeyboardInterrupt:
-            cFormatter.print(Color.DEBUG, '\nProgram interrupted by user.')
+            cFormatter.print(Color.DEBUG, '\n程序被用户中断。')
             exit()
         except OperationCancel:
-            cFormatter.print(Color.DEBUG, '\nProgram interrupted by user.')
+            cFormatter.print(Color.DEBUG, '\n程序被用户中断.')
             exit()
         except OperationSoftCancel:
-            cFormatter.print(Color.DEBUG, '\nProgram interrupted by user.')
+            cFormatter.print(Color.DEBUG, '\n程序被用户中断.')
             exit()
 
     

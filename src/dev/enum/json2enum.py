@@ -19,7 +19,7 @@ def f_parseJSON(input_filepath: str, output_directory: str) -> None:
         output_filepath = os.path.join(output_directory, f"{filename.lower()}.py")
 
         # Generate the Python script content
-        scriptContent = f"from enum import Enum\n\n"
+        scriptContent = f"# 从枚举导入枚举\n\n"
         scriptContent += f"class {className}(Enum):\n"
         scriptContent += f"    {className}_DICT = {{\n"
 
@@ -36,14 +36,14 @@ def f_parseJSON(input_filepath: str, output_directory: str) -> None:
         with open(output_filepath, 'w') as outfile:
             outfile.write(scriptContent)
 
-        print(f"Generated Python file for '{className}' saved to '{output_filepath}'.")
+        print(f"为'{className}'生成的 Python 文件保存到'{output_filepath}'中.")
 
     except FileNotFoundError:
-        print(f"Error: File '{input_filepath}' not found.")
+        print(f"错误:文件'{input_filepath}'没找到")
     except json.JSONDecodeError:
-        print(f"Error: Failed to decode JSON from '{input_filepath}'.")
+        print(f"错误：无法从JSON{input_filepath}解码 '.")
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"错误:{e}")
 
 def f_processJSON(inputDir: str, outputDir: str) -> None:
     """
@@ -67,7 +67,7 @@ def f_processJSON(inputDir: str, outputDir: str) -> None:
                 f_parseJSON(inputFilepath, outputDir)
 
     except Exception as e:
-        print(f"Error processing JSON files: {e}")
+        print(f"处理 JSON 文件时出错：{e}")
 
 # Example usage:
 inputDir = '../../data'

@@ -58,4 +58,4 @@ for form_name, caught_attr in pikachu_data.items():
 with open('filled.json', 'w') as f:
     json.dump(pokemon_caught_attrs_variant_3, f, indent=4)
 
-print("Data has been computed and saved to filled.json.")
+print("数据已计算并保存到filled.json。")

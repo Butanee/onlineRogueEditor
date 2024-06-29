@@ -39,14 +39,14 @@ timestampFile: str = os.path.join(dataDirectory, 'extra.json')
 
 if not os.path.exists(logsDirectory):
     os.makedirs(logsDirectory)
-    print(f'{Fore.GREEN}Created logs directory: {logsDirectory}')
+    print(f'{Fore.GREEN}创建日志目录：{logsDirectory}')
 # Create the backups directory if it doesn't exist
 if not os.path.exists(backupDirectory):
     os.makedirs(backupDirectory)
-    print(f'{Fore.GREEN}Created backup directory: {backupDirectory}')
+    print(f'{Fore.GREEN}创建备份目录：{backupDirectory}')
 if not os.path.exists(dataDirectory):
     os.makedirs(dataDirectory)
-    print(f'{Fore.GREEN}Created data directory: {dataDirectory}')
+    print(f'{Fore.GREEN}创建的数据目录：{dataDirectory}')
 
 
 # Settings this to true will deactivate backups, skip prompts and use offline mode automatically
@@ -57,8 +57,8 @@ debugEnableTraceback: bool = True if debug else False
 cacertURL = 'https://curl.se/ca/cacert.pem'
 cacertPath = f'{dataDirectory}/cacert.pem'
 if not os.path.exists(cacertPath):
-    print(f'{Fore.RED}\ncacert.pem not found. This is needed for SSL Connections. \n Fetching from {cacertURL}...{Style.RESET_ALL}')
-    print(f'{Fore.RED}\nIf it is your first time starting up that is normal.{Style.RESET_ALL}')
+    print(f'{Fore.RED}\ncacert.pem 未找到。SSL 连接需要此文件。\从{cacertURL}获取...{Style.RESET_ALL}。')
+    print(f'{Fore.RED}\n如果是第一次启动，这很正常。')
     # Fetch the file using requests library
     response = requests.get(cacertURL)
     
@@ -67,9 +67,9 @@ if not os.path.exists(cacertPath):
         # Save the content to local file
         with open(cacertPath, 'wb') as f:
             f.write(response.content)
-        print(f'{Fore.GREEN}Successfully fetched {cacertURL} and saved as {cacertPath}.{Style.RESET_ALL}')
+        print(f'{Fore.GREEN}成功获取 {cacertURL} 并保存为 {cacertPath}.{Style.RESET_ALL}.')
     else:
-        print(f'Failed to fetch {cacertURL}. \n Status code: {response.status_code}. \n Cannot use SSL but the program might work.')
+        print(f'获取 {cacertURL} 失败。\状态代码： {response.status_code}. \n 无法使用 SSL，但程序可能可以工作。')
         cacertPath = False
 
 useCaCert = False if debug else cacertPath
@@ -130,7 +130,7 @@ def f_checkForUpdates(requests: requests, datetime: datetime, timedelta: timedel
         try:
             dt = datetime.strptime(date_string, dateFormat)
         except ValueError as e:
-            raise ValueError("Incorrect date format, should be 'dd.mm.yyyy HH:MM'") from e
+            raise ValueError("日期格式不正确，应为“dd.mm.yyyy HH：MM”") from e
 
         # Determine local timezone offset for Central European Time (CET)
         isDST = datetime.now().timetuple().tm_isdst
@@ -162,22 +162,22 @@ def f_checkForUpdates(requests: requests, datetime: datetime, timedelta: timedel
         commitList = [{'sha': commit['sha'], 'message': commit['commit']['message']} for commit in commits]
 
         if commitList:
-            print(f'{Fore.YELLOW}********* Outdated source code found. New commits: *********{Style.RESET_ALL}')
+            print(f'{Fore.YELLOW}********* 发现过期源代码。新提交： *********{Style.RESET_ALL}')
             for commit in commitList:
-                print(f'{Fore.YELLOW}---- Commit Name: ({commit["message"]}{Style.RESET_ALL})')
+                print(f'{Fore.YELLOW}---- 提交名称：({commit["message"]}{Style.RESET_ALL})')
                 print(f'{Fore.BLUE}------> with SHA ({commit["sha"]}{Style.RESET_ALL})')
-            print(f'{Fore.YELLOW}You can view the latest code here: {repoURL}{Style.RESET_ALL}')
-            print(f'{Fore.YELLOW}It is highly recommended to update the source code. Some things might not be working as expected.{Style.RESET_ALL}')
+            print(f'{Fore.YELLOW}您可以在此处查看最新代码：{repoURL}{Style.RESET_ALL}')
+            print(f'{Fore.YELLOW}强烈建议更新源代码。有些事情可能无法按预期工作。{Style.RESET_ALL}')
             print(f'{Fore.YELLOW}------------------------------------------------------------{Style.RESET_ALL}')
         else:
-            print(f'{Fore.GREEN}No updates found.')
+            print(f'{Fore.GREEN}未找到更新。')
 
     except ValueError as ve:
-        print(f'{Fore.RED}Couldnt resolve check_for_updates() - ValueError occurred: {ve}')
+        print(f'{Fore.RED}无法解决 check_for_updates（） - 发生 ValueError：{ve}')
     except requests.exceptions.RequestException as re:
-        print(f'{Fore.RED}Couldnt resolve check_for_updates() - RequestException occurred: {re}')
+        print(f'{Fore.RED}无法解决 check_for_updates（） - 发生 RequestException：{re}')
     except Exception as e:
-        print(f'{Fore.RED}Couldnt resolve check_for_updates() - An unexpected error occurred: {e}')
+        print(f'{Fore.RED}无法解决 check_for_updates（） - 发生意外错误：{e}')
 
 def f_printWelcomeText() -> None:
     """
@@ -192,14 +192,14 @@ def f_printWelcomeText() -> None:
     - utilities.cFormatter: Prints colored console output for initialization messages.
     """
     print(f'{Fore.GREEN}<pyRogue {version}>')
-    print(f'{Fore.GREEN}We create base-backups on every login and further backups every time you start or choose so manually.')
-    print(f'{Fore.GREEN}In case of trouble, please switch your Network (Hotspot, VPN etc).')
-    print(f'{Fore.GREEN}Otherwise please visit {repoURL} and report the issue.')
+    print(f'{Fore.GREEN}我们会在每次登录时创建基本备份，并在您每次手动启动或选择时创建进一步的备份。')
+    print(f'{Fore.GREEN}如有问题，请切换您的网络（热点、VPN 等）。')
+    print(f'{Fore.GREEN}否则，请访问 {repoURL} 并报告问题。')
     print('------------------------------------------------------------')
-    print(f'{Fore.MAGENTA}{Style.BRIGHT}1: Using no browser with requests.    Reliability 6/10')
-    print(f'{Fore.MAGENTA}{Style.BRIGHT}2: Using own browser with requests.   Reliability 7/10')
-    print(f'{Fore.MAGENTA}{Style.BRIGHT}3: Using own browser with JavaScript. Reliability 9/10')
-    print(f'{Fore.MAGENTA}{Style.BRIGHT}4: Just edit an existing trainer.json')
+    print(f'{Fore.MAGENTA}{Style.BRIGHT}1: 直接登录    可靠性 6/10')
+    print(f'{Fore.MAGENTA}{Style.BRIGHT}2: 使用本地浏览器。   可靠性 7/10')
+    print(f'{Fore.MAGENTA}{Style.BRIGHT}3: 使用本地浏览器和JS  可靠性 9/10')
+    print(f'{Fore.MAGENTA}{Style.BRIGHT}4: 离线编辑trainer.json')
 
 def f_printHelp() -> None:
     """
@@ -215,15 +215,15 @@ def f_printHelp() -> None:
     Modules/Librarys used and for what purpose exactly in each function:
     - utilities.cFormatter: Prints colored console output for help messages.
     """
-    print(f'{Fore.YELLOW}You can always edit your JSON manually as well.')
-    print(f'{Fore.YELLOW}If you need assistance, please refer to the program\'s GitHub page.')
+    print(f'{Fore.YELLOW}您也可以随时手动编辑 JSON。')
+    print(f'{Fore.YELLOW}如果您需要帮助，请参阅该计划的 GitHub 页面。')
     print(f'{Fore.YELLOW}{repoURL}')
-    print(f'{Fore.YELLOW}This is release version {version} - please include that in your issue or question report.')
-    print(f'{Fore.YELLOW}This version now also features a log file.')
-    print(f'{Fore.YELLOW}We do not take responsibility if your accounts get flagged or banned, and')
-    print(f'{Fore.YELLOW}you never know if there is a clone of this program. If you are not sure, please')
-    print(f'{Fore.YELLOW}calculate the checksum of this binary and visit {repoURL}')
-    print(f'{Fore.YELLOW}to see the value it should have to know it\'s original from source.')
+    print(f'{Fore.YELLOW}发布版本为:{version}- 请将其包含在您的问题或问题报告中。')
+    print(f'{Fore.YELLOW}此版本现在还具有日志文件。')
+    print(f'{Fore.YELLOW}如果您的帐户被标记或禁止，我们概不负责，并且')
+    print(f'{Fore.YELLOW}你永远不知道这个程序是否有克隆。如果您不确定，')
+    print(f'{Fore.YELLOW}请计算此二进制文件的校验和并访问{repoURL}')
+    print(f'{Fore.YELLOW}要查看它应该具有的值，请从源代码中知道它的原始值。')
 
 def f_anonymizeName(username):
     if len(username) < 3:  # If username length is less than 3, return as is (minimum 2 characters)

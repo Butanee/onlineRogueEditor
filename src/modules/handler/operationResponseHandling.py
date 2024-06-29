@@ -18,7 +18,7 @@ def handle_operation_exceptions(func):
         except OperationSuccessful as os:
             funcName = func.__name__
             customMessage = os.args[0] if os.args else ""
-            fh_appendMessageBuffer(Color.DEBUG, f'Operation {funcName} finished. {customMessage}')
+            fh_appendMessageBuffer(Color.DEBUG, f'操作 {funcName} 已完成. {customMessage}')
 
         except OperationError as oe:
             fh_appendMessageBuffer(Color.DEBUG, str(oe), isLogging=True)
@@ -32,21 +32,21 @@ def handle_operation_exceptions(func):
             fh_appendMessageBuffer(Color.DEBUG, f'Soft-cancelling {funcName}. {customMessage}')
 
         except KeyboardInterrupt:
-            fh_appendMessageBuffer(Color.DEBUG, 'Keyboard-interrupt detected.')
+            fh_appendMessageBuffer(Color.DEBUG, '检测到键盘中断。')
         
         except JSONDecodeError as jde:
             funcName = func.__name__
-            customMessage = f'JSON decoding error in function {funcName}: {jde}'
+            customMessage = f'函数中的JSON解码错误{funcName}: {jde}'
             fh_appendMessageBuffer(Color.CRITICAL, customMessage, isLogging=True)
 
         except IOError as ioe:
             funcName = func.__name__
             customMessage = f'{funcName}: {ioe}'
-            fh_appendMessageBuffer(Color.CRITICAL, f'Error loading data: {customMessage}', isLogging=True)
+            fh_appendMessageBuffer(Color.CRITICAL, f'加载数据时出错：{customMessage}', isLogging=True)
 
         except Exception as e:
             funcName = func.__name__
-            customMessage = f'Error in function {funcName}: {e}'
+            customMessage = f'功能错误{funcName}: {e}'
             fh_appendMessageBuffer(Color.CRITICAL, customMessage, isLogging=True)
             # This should forward any exception not handled to our main stack
             if debugEnableTraceback:
@@ -63,7 +63,7 @@ class OperationCancel(Exception):
         if message:
             self.message = message
         else:
-            self.message = 'Operation canceled.'
+            self.message = '操作已取消。'
         super().__init__(self.message)
 
 # ==============================================
@@ -75,7 +75,7 @@ class OperationSuccessful(Exception):
         if message:
             self.message = message
         else:
-            self.message = 'Operation succesful.'
+            self.message = '操作成功。'
         super().__init__(self.message)
 
 # ==============================================
@@ -88,9 +88,9 @@ class OperationError(Exception):
         if message:
             self.message = message
         elif originalTraceback:
-            self.message = f'Operation encountered an error: {str(originalTraceback)}'
+            self.message = f'操作遇到错误：{str(originalTraceback)}'
         else:
-            self.message = 'Operation encountered an error.'
+            self.message = '操作遇到错误。'
         super().__init__(self.message)
 
 # ==============================================================

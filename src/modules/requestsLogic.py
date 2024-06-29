@@ -91,47 +91,71 @@ def handle_error_response(response: requests.Response) -> Dict[str, str]:
     if response.status_code == 200:
         cFormatter.print(Color.BRIGHT_GREEN, 'Response 200 - That seemed to have worked!')
         cFormatter.print(Color.BRIGHT_GREEN, 'If it doesn\'t apply in-game, refresh without cache or try a private tab!')
+        cFormatter.print(Color.BRIGHT_GREEN, '响应 200 - 这似乎奏效了！')
+        cFormatter.print(Color.BRIGHT_GREEN, '如果它在游戏中不适用，请在没有缓存的情况下刷新或尝试使用无痕窗口！')
     elif response.status_code == 400:
         cFormatter.print(Color.WARNING, 'Response 400 - Bad Request: The server could not understand the request due to invalid syntax. This is usually related to wrong credentials.', isLogging=True)
         cFormatter.print(Color.WARNING, 'Please retry a couple times. It this persists report on GitHub (can happen 3-5 times)')
+        cFormatter.print(Color.WARNING, '响应 400 - 错误请求：由于语法无效，服务器无法理解请求。这通常与错误的凭据有关。',isLogging=True)
+        cFormatter.print(Color.WARNING, '请重试几次。它在 GitHub 上持续报告（可能发生 3-5 次）')
     elif response.status_code == 401:
         cFormatter.print(Color.BRIGHT_RED, 'Response 401 - Unauthorized: Authentication is required and has failed or has not yet been provided.', isLogging=True)
+        cFormatter.print(Color.BRIGHT_RED, '响应 401 - 未经授权：身份验证是必需的，但已失败或尚未提供。', isLogging=True)
     elif response.status_code == 403:
         cFormatter.print(Color.BRIGHT_RED, 'Response 403 - Forbidden. We have no authorization to access the resource.', isLogging=True)
+        cFormatter.print(Color.BRIGHT_RED, '响应 403 - 禁止访问。我们无权访问该资源。',
+                         isLogging=True)
     elif response.status_code == 404:
         cFormatter.print(Color.BRIGHT_RED, 'Response 404 - Not Found: The server can not find the requested resource.', isLogging=True)
+        cFormatter.print(Color.BRIGHT_RED, '响应 404 - 未找到：服务器找不到请求的资源。', isLogging=True)
     elif response.status_code == 405:
         cFormatter.print(Color.BRIGHT_RED, 'Response 405 - Method Not Allowed: The request method is known by the server but is not supported by the target resource.', isLogging=True)
+        cFormatter.print(Color.BRIGHT_RED, '响应 405 - 不允许的方法：服务器知道请求方法，但目标资源不支持该方法。', isLogging=True)
     elif response.status_code == 406:
         cFormatter.print(Color.BRIGHT_RED, 'Response 406 - Not Acceptable: The server cannot produce a response matching the list of acceptable values defined in the request\'s proactive content negotiation headers.', isLogging=True)
+        cFormatter.print(Color.BRIGHT_RED, '响应 406 - 不可接受：服务器无法生成与请求的主动内容协商标头中定义的可接受值列表匹配的响应。', isLogging=True)
     elif response.status_code == 407:
         cFormatter.print(Color.BRIGHT_RED, 'Response 407 - Proxy Authentication Required: The client must first authenticate itself with the proxy.', isLogging=True)
+        cFormatter.print(Color.BRIGHT_RED, '响应 407 - 需要代理身份验证：客户端必须首先使用代理对自己进行身份验证。', isLogging=True)
     elif response.status_code == 408:
         cFormatter.print(Color.BRIGHT_RED, 'Response 408 - Request Timeout: The server would like to shut down this unused connection.', isLogging=True)
+        cFormatter.print(Color.BRIGHT_RED, '响应 408 - 请求超时：服务器想要关闭此未使用的连接。', isLogging=True)
     elif response.status_code == 413:
         cFormatter.print(Color.BRIGHT_RED, 'Response 413 - Payload Too Large: The request entity is larger than limits defined by server.', isLogging=True)
+        cFormatter.print(Color.BRIGHT_RED, '响应 413 - 有效负载过大：请求实体大于服务器定义的限制。', isLogging=True)
     elif response.status_code == 429:
         cFormatter.print(Color.BRIGHT_RED, 'Response 429 - Too Many Requests: The user has sent too many requests in a given amount of time ("rate limiting").', isLogging=True)
+        cFormatter.print(Color.BRIGHT_RED, '响应 429 - 请求过多：用户在给定时间内发送了太多请求（“速率限制”）。', isLogging=True)
     elif response.status_code == 500:
         cFormatter.print(Color.CRITICAL, 'Error 500 - Internal Server Error: The server has encountered a situation it does not know how to handle.', isLogging=True)
+        cFormatter.print(Color.CRITICAL, '错误 500 - 内部服务器错误：服务器遇到了不知道如何处理的情况。', isLogging=True)
     elif response.status_code == 502:
         cFormatter.print(Color.CRITICAL, 'Error 502 - Bad Gateway: The server was acting as a gateway or proxy and received an invalid response from the upstream server.', isLogging=True)
+        cFormatter.print(Color.CRITICAL, '错误 502 - 网关错误：服务器充当网关或代理，并收到来自上游服务器的无效响应。', isLogging=True)
     elif response.status_code == 503:
         cFormatter.print(Color.CRITICAL, 'Error 503 - Service Temporarily Unavailable: The server is not ready to handle the request.', isLogging=True)
+        cFormatter.print(Color.CRITICAL, '错误 503 - 服务暂时不可用：服务器尚未准备好处理请求。', isLogging=True)
     elif response.status_code == 504:
         cFormatter.print(Color.CRITICAL, 'Error 504 - Gateway Timeout: The server is acting as a gateway or proxy and did not receive a timely response from the upstream server.', isLogging=True)
+        cFormatter.print(Color.CRITICAL, '错误 504 - 网关超时：服务器充当网关或代理，未收到来自上游服务器的及时响应。', isLogging=True)
     elif response.status_code == 520:
         cFormatter.print(Color.CRITICAL, 'Error 520 - Web Server Returns an Unknown Error: The server has returned an unknown error.', isLogging=True)
+        cFormatter.print(Color.CRITICAL, '错误 520 - Web 服务器返回未知错误：服务器返回未知错误。', isLogging=True)
     elif response.status_code == 521:
         cFormatter.print(Color.CRITICAL, 'Error 521 - Web Server Is Down: The server is not responding to Cloudflare requests.', isLogging=True)
+        cFormatter.print(Color.CRITICAL, '错误 521 - Web 服务器已关闭：服务器未响应 Cloudflare 请求。', isLogging=True)
     elif response.status_code == 522:
         cFormatter.print(Color.CRITICAL, 'Error 522 - Connection Timed Out: Cloudflare was able to complete a TCP connection to the origin server, but the origin server did not reply with an HTTP response.', isLogging=True)
+        cFormatter.print(Color.CRITICAL, '错误 522 - 连接超时：Cloudflare 能够完成与源服务器的 TCP 连接，但源服务器未回复 HTTP 响应。', isLogging=True)
     elif response.status_code == 523:
         cFormatter.print(Color.CRITICAL, 'Error 523 - Origin Is Unreachable: Cloudflare could not reach the origin server.', isLogging=True)
+        cFormatter.print(Color.CRITICAL, '错误 523 - 无法访问源站：Cloudflare 无法访问源站服务器。', isLogging=True)
     elif response.status_code == 524:
         cFormatter.print(Color.CRITICAL, 'Error 524 - A Timeout Occurred: Cloudflare was able to complete a TCP connection to the origin server, but the origin server did not reply with an HTTP response.', isLogging=True)
+        cFormatter.print(Color.CRITICAL, '错误 524 - 发生超时：Cloudflare 能够完成与源服务器的 TCP 连接，但源服务器未回复 HTTP 响应。', isLogging=True)
     else:
         cFormatter.print(Color.CRITICAL, 'Unexpected response received from the server.', isLogging=True)
+        cFormatter.print(Color.CRITICAL, '从服务器收到意外响应。', isLogging=True)
 
     return {}
 
@@ -296,8 +320,8 @@ class requestsLogic:
         data = {'username': self.username, 'password': self.password}
         try:
             headers = HeaderGenerator.generate_headers()
-            cFormatter.print(Color.DEBUG, 'Adding delay to appear more natural to the server. Please stand by...')
-            cFormatter.print(Color.DEBUG, '(If it takes longer than 5 Seconds its not on us.)')
+            cFormatter.print(Color.DEBUG, '添加延迟以使服务器看起来更自然。请稍候...')
+            cFormatter.print(Color.DEBUG, '（如果花费的时间超过 5 秒，则不在我们身上。')
             response = self.session.post(self.LOGIN_URL, headers=headers, data=data, verify=useCaCert)
             sleep(random.randint(3, 5))
             response.raise_for_status()
@@ -306,12 +330,12 @@ class requestsLogic:
             self.token = login_response.get('token')
             cFormatter.fh_printSeperators(30, '-')
             self.sessionId = self.calcSessionId()
-            cFormatter.print(Color.GREEN, 'Login successful.')
+            cFormatter.print(Color.GREEN, '登录成功。')
             status_code_color = Color.BRIGHT_GREEN if response.status_code == 200 else Color.BRIGHT_RED
-            cFormatter.print(status_code_color, f'HTTP Status Code: {response.status_code}')
-            cFormatter.print(Color.CYAN, f'Response URL: {response.request.url}', isLogging=True)
+            cFormatter.print(status_code_color, f'HTTP 状态代码：{response.status_code}')
+            cFormatter.print(Color.CYAN, f'响应 URL：{response.request.url}', isLogging=True)
             filtered_headers = {key: value for key, value in response.headers.items() if key != 'Report-To'}
-            cFormatter.print(Color.CYAN, f'Response Headers: {filtered_headers}', isLogging=True)
+            cFormatter.print(Color.CYAN, f'响应标头：{filtered_headers}', isLogging=True)
             cFormatter.fh_printSeperators(30, '-')
             return True
 

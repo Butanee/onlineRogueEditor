@@ -43,14 +43,14 @@ def handle_http_exceptions(func, requests):
         try:
             return func(*args, **kwargs)
         except requests.exceptions.HTTPError as http_err:
-            cFormatter.print(Color.CRITICAL, f'HTTP error occurred: {http_err}')
+            cFormatter.print(Color.CRITICAL, f'发生 HTTP 错误：{http_err}')
             if isinstance(args[0], requests.Response) and args[0].status_code in status_messages:
                 color, message = status_messages[args[0].status_code]
                 cFormatter.print(color, message, isLogging=True)
             else:
-                cFormatter.print(Color.CRITICAL, 'Unexpected HTTP error occurred.', isLogging=True)
+                cFormatter.print(Color.CRITICAL, '发生意外的 HTTP 错误。', isLogging=True)
         except requests.exceptions.RequestException as req_err:
-            cFormatter.print(Color.CRITICAL, f'Request error occurred: {req_err}')
+            cFormatter.print(Color.CRITICAL, f'发生请求错误：{req_err}')
         except Exception as e:
-            cFormatter.print(Color.CRITICAL, f'Other error occurred: {e}')
+            cFormatter.print(Color.CRITICAL, f'发生其他错误：{e}')
     return wrapper

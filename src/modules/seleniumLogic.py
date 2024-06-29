@@ -35,8 +35,8 @@ Workflow:
 Usage Example:
 >>> selenium_logic = SeleniumLogic(username="your_username", password="your_password", timeout=120)
 >>> session_id, token, driver = selenium_logic.logic()
->>> print(f"Session ID: {session_id}")
->>> print(f"Token: {token}")
+>>> print(f"会话 ID：{session_id}")
+>>> print(f"令牌: {token}")
 >>> # driver can be further used for additional operations if needed
 
 Expected Output Example:
@@ -170,7 +170,7 @@ class SeleniumLogic:
                             token = tokenData.get('token')
 
         except TimeoutException as e:
-            print(f"Timeout occurred: {e}")
+            print(f"发生超时：{e}")
 
         finally:
             CustomLogger.fh_reactiveLogging()

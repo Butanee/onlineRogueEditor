@@ -157,13 +157,13 @@ class ModifierEditor:
 
         self.slotData = self.__fh_loadJSON(f'slot_{self.slot}.json')
         if self.slotData['gameMode'] == 3:
-                cFormatter.print(Color.BRIGHT_YELLOW, 'Cannot edit this property on Daily Runs.')
+                cFormatter.print(Color.BRIGHT_YELLOW, '无法在每日挑战中编辑此属性。')
                 return
         self.currentParty = []
 
         for pokemon in self.slotData['party']:
             pokeID = str(pokemon.get('species', None))
-            pokeName = self.pokemonNameByIDHelper.get(pokeID, f'UnknownID {pokeID}').capitalize()
+            pokeName = self.pokemonNameByIDHelper.get(pokeID, f'未知 ID {pokeID}').capitalize()
             pokeIsShiny = pokemon.get('shiny', False)
             pokeShinyType = pokemon.get('variant', "None")
             pokeLuck = pokemon.get('luck', 0)
@@ -186,11 +186,11 @@ class ModifierEditor:
 
     def fh_printParty(self):
         # Print the current party with detailed information
-        cFormatter.print(Color.WHITE, f'Current Pokemon-Party in Slot {self.slot}:')
+        cFormatter.print(Color.WHITE, f'当前宝可梦派对在插槽中{self.slot}:')
         cFormatter.fh_printSeperators(55, '-', Color.DEBUG)
         for i, pokeInfoDict in enumerate(self.currentParty, start=1):
-            shinyStatus = f"Shiny {pokeInfoDict['variant']}" if pokeInfoDict["shiny"] else "Not Shiny"
-            cFormatter.print(Color.WHITE, f'{i}: {Fore.YELLOW}{pokeInfoDict["name"]}{Style.RESET_ALL} | Level: {pokeInfoDict["level"]} | Luck: {pokeInfoDict["luck"]} | {shinyStatus} |')
+            shinyStatus = f"闪光: {pokeInfoDict['variant']}" if pokeInfoDict["shiny"] else "没闪"
+            cFormatter.print(Color.WHITE, f'{i}: {Fore.YELLOW}{pokeInfoDict["name"]}{Style.RESET_ALL} | 等级: {pokeInfoDict["level"]} | 幸运值: {pokeInfoDict["luck"]} | {shinyStatus} |')
         cFormatter.fh_printSeperators(55, '-', Color.DEBUG)
 
     def m_createItemMenu(self):
@@ -216,18 +216,18 @@ class ModifierEditor:
         for category in m_menuSorting:
             if category in modifiersByType:
                 if category == 'Danger':
-                    m_itemMenuItems.append(('Not included in Give All', 'category'))
+                    m_itemMenuItems.append(('不包括在“全部”中', 'category'))
                 else:
                     m_itemMenuItems.append((category, 'category'))
                 m_itemMenuItems.extend(self.m_createMenuChunks(modifiersByType[category]))
 
         # Add closing part
-        m_itemMenuItems.append(('pyRogue Item Editor', 'category'))
-        m_itemMenuItems.append((('Give all Modifiers', "Give All"), self.__fh_doAllModifiers))
-        m_itemMenuItems.append((('Return to Main Menu', f'{Fore.LIGHTYELLOW_EX}Use when done'), self.end))
-        m_itemMenuItems.append(('You can also STRG+C to return to the Main Menu', 'category'))
-        m_itemMenuItems.append(('You can save these changes in the Main Menu', 'category'))
-        m_itemMenuItems.append(('Enter any command to see what it does', 'category'))
+        m_itemMenuItems.append(('pyRogue 道具编辑器', 'category'))
+        m_itemMenuItems.append((('给出所有修道具', "Give All"), self.__fh_doAllModifiers))
+        m_itemMenuItems.append((('返回主菜单', f'{Fore.LIGHTYELLOW_EX}完成后使用'), self.end))
+        m_itemMenuItems.append(('您也可以按 Control+C 返回主菜单', 'category'))
+        m_itemMenuItems.append(('您可以将这些更改保存在主菜单中', 'category'))
+        m_itemMenuItems.append(('输入任何命令以查看其作用', 'category'))
         
         return m_itemMenuItems
 
@@ -311,23 +311,23 @@ class ModifierEditor:
                 # print(f'Existing modifier JSON: {existing}')
                 if existing['stackCount'] != modifier.stackCount:
                     existing['stackCount'] = modifier.stackCount
-                    message = f'Successfully updated {modifier.stackCount} {modifier.typeId} to slot_{sessionSlot} for Pokémon ID {pokeId}' if modifier.args else f'Successfully updated {modifier.stackCount} {modifier.typeId} to slot_{sessionSlot}'
+                    message = f'成功将存档{sessionSlot}的Pokémon ID {pokeId}的{modifier.typeId}数量更改为{modifier.stackCount}个' if modifier.args else f'成功将存档{sessionSlot}的{modifier.typeId}数量更改为{modifier.stackCount}个'
                 else:
-                    message = f'No change for {modifier.typeId} in slot_{sessionSlot} for Pokémon ID {pokeId}' if modifier.args else f'No change for {modifier.typeId} in slot_{sessionSlot}'
+                    message = f'存档{sessionSlot}的Pokémon ID {pokeId}的{modifier.typeId}无变化' if modifier.args else f'存档{sessionSlot}的{modifier.typeId}无变化'
             else:
                 data['modifiers'].append(modifier.fh_toJSON(pokeId))
-                message = f'Successfully written {modifier.stackCount} {modifier.typeId} to slot_{sessionSlot} for Pokémon ID {pokeId}' if modifier.args else f'Successfully written {modifier.stackCount} {modifier.typeId} to slot_{sessionSlot}'
+                message = f'成功将{modifier.stackCount}个{modifier.typeId}给予存档{sessionSlot}的Pokémon ID {pokeId}' if modifier.args else f'成功将{modifier.stackCount}个{modifier.typeId}给予存档{sessionSlot}'
 
             # Restore original args state
             modifier.args = originalArgs
 
             self.__fh_saveJSON(data, f'slot_{sessionSlot}.json')
             cFormatter.print(Color.GREEN, message)
-            self.notifyMessage = (f'Successfully added or updated modifier {modifier.typeId}', 'success')
+            self.notifyMessage = (f'已成功添加或更新道具{modifier.typeId}', 'success')
 
         except Exception as e:
-            self.notifyMessage = (f'Something went wrong. \n {e}', 'error')
-            cFormatter.print(Color.INFO, f'Something went wrong. \n {e}', 'error')
+            self.notifyMessage = (f'出了点问题。\n{e}', 'error')
+            cFormatter.print(Color.INFO, f'出了点问题。\n{e}', 'error')
 
     @handle_operation_exceptions
     def m_itemMenuPresent(self, sessionSlot):
@@ -346,11 +346,11 @@ class ModifierEditor:
                     elif self.notifyMessage[1] == 'warning':
                         cFormatter.print(Color.WARNING, f'{self.notifyMessage[0]}')
 
-                choice = int(input('Select an option by number: ').strip())
+                choice = int(input('按数字选择一个选项：').strip())
                 selectedItem = next((item for item in validChoices if item[0] == choice), None)
 
                 if selectedItem is None:
-                    cFormatter.print(Color.ERROR, 'Invalid choice, please try again.')
+                    cFormatter.print(Color.ERROR, '无效选择，请重试。')
                     continue
 
                 chosenItem = selectedItem[1]
@@ -363,33 +363,33 @@ class ModifierEditor:
                         chosenItem(sessionSlot)
                 else:
                     selectedModifier = chosenItem
-                    cFormatter.print(Color.DEBUG, 'You can always go back to the menu by typing anything not 0-5.')
-                    cFormatter.print(Color.DEBUG, f'Item Description: {Style.RESET_ALL}{selectedModifier.value.description}')
-                    cFormatter.print(Color.DEBUG, f'Max Stacks: {Style.RESET_ALL}{selectedModifier.value.maxStack}')
+                    cFormatter.print(Color.DEBUG, '您可以随时通过键入非 0-5 的任何内容返回菜单。')
+                    cFormatter.print(Color.DEBUG, f'项目描述：{Style.RESET_ALL}{selectedModifier.value.description}')
+                    cFormatter.print(Color.DEBUG, f'最大堆栈：{Style.RESET_ALL}{selectedModifier.value.maxStack}')
                     
                     self.fh_printParty()
-                    selectedPartySlot = int(fh_getIntegerInput('Select the party slot of the Pokemon you want to edit', 1, 6, zeroCancel=True)) -1
+                    selectedPartySlot = int(fh_getIntegerInput('选择您要编辑的宝可梦的派对插槽', 1, 6, zeroCancel=True)) -1
                     pokeId = int(slotData["party"][selectedPartySlot]["id"])
-                    header = cFormatter.fh_centerText(f'Editing {self.currentParty[selectedPartySlot]['name']} and Trainer', 55, '-')
+                    header = cFormatter.fh_centerText(f'编辑 {self.currentParty[selectedPartySlot]['name']} 和训练家', 55, '-')
                     cFormatter.print(Color.DEBUG, header)
                     
                     existingStackCount = self.__fh_ensureModifiersBlock(slotData, selectedModifier.value.typeId, selectedModifier.value.typePregenArgs, pokeId)
                     
                     while True:
                         if existingStackCount is not None:
-                            stackCountInput = input(f'You already have {existingStackCount} of {selectedModifier.value.customName}. Set new value to: ')
+                            stackCountInput = input(f'你已经有了{existingStackCount}个{selectedModifier.value.customName}.将新值设置为：')
                         else:
-                            stackCountInput = input(f'How many {selectedModifier.value.customName} do you want? or enter any invalid input to retreat: ')
+                            stackCountInput = input(f'你想要几个{selectedModifier.value.customName}?或输入任何无效的输入进行撤退：')
                         try:
                             newStackCount = int(stackCountInput)
                             break
                         except ValueError:
-                            cFormatter.print(Color.ERROR, 'Invalid input. Please enter a valid number.')
+                            cFormatter.print(Color.ERROR, '输入无效。请输入有效号码。')
 
                     self.__f_recursiveAddOrUpdateMods(slotData, selectedModifier, newStackCount, pokeId, sessionSlot)
 
             except ValueError:
-                cFormatter.print(Color.ERROR, 'Invalid input, please enter a number.')
+                cFormatter.print(Color.ERROR, '输入无效，请输入数字。')
             except KeyboardInterrupt:
                 raise OperationCancel()
 
@@ -398,16 +398,16 @@ class ModifierEditor:
             slotData = self.__fh_loadJSON(f'slot_{sessionSlot}.json')
 
             if slotData['gameMode'] == 3:
-                cFormatter.print(Color.BRIGHT_YELLOW, 'Cannot edit this property on Daily Runs.')
+                cFormatter.print(Color.BRIGHT_YELLOW, '无法在每日挑战中编辑此属性。')
                 return
 
             self.fh_printParty()
-            cFormatter.print(Color.DEBUG, 'You can always go back to the menu by typing anything not 0-5.')
-            selectedPartySlot = int(fh_getIntegerInput('Select the party slot of the Pokemon you want to edit', 1, 6, zeroCancel=True)) -1
-            header = cFormatter.fh_centerText(f'Editing {self.currentParty[selectedPartySlot]['name']} and Trainer', 55, '-')
+            cFormatter.print(Color.DEBUG, '您可以随时通过键入非 0-5 的任何内容返回菜单。')
+            selectedPartySlot = int(fh_getIntegerInput('选择您要编辑的宝可梦的派对插槽', 1, 6, zeroCancel=True)) -1
+            header = cFormatter.fh_centerText(f'编辑 {self.currentParty[selectedPartySlot]['name']}和训练家', 55, '-')
             cFormatter.print(Color.DEBUG, header)
 
-            stackCountInput = int(input('Enter the stack count for the modifiers: '))
+            stackCountInput = int(input('输入修饰符的堆栈计数：'))
             pokeId = slotData["party"][selectedPartySlot]["id"]
             try:
                 for modType in ModifierType:
@@ -415,17 +415,17 @@ class ModifierEditor:
                         continue  # Skip modifiers with customType 'Danger'
                     self.__f_recursiveAddOrUpdateMods(slotData, modType, stackCountInput, pokeId, sessionSlot)
             except Exception as e:
-                self.notifyMessage = f'Something unexpected happened. {e}'
-                cFormatter.print(Color.WARNING, f'Something unexpected happened. {e}', isLogging=True)
+                self.notifyMessage = f'意想不到的事情发生了。{e}'
+                cFormatter.print(Color.WARNING, f'意想不到的事情发生了。{e}', isLogging=True)
             finally:
-                self.notifyMessage = ('Successfully added all modifiers except annoying ones.', 'success')
+                self.notifyMessage = ('Successfully added all modifiers except annoying ones.成功添加了所有道具，烦人的除外。', 'success')
                 
         except ValueError:
-            cFormatter.print(Color.ERROR, 'Invalid input, please enter a number.')
+            cFormatter.print(Color.ERROR, '输入无效，请输入数字。')
 
     @staticmethod
     def end():
-        cFormatter.print(Color.GREEN, 'Leaving pyRogue Item Editor.')
+        cFormatter.print(Color.GREEN, '离开 pyRogue 项目编辑器。')
 
     """@staticmethod
     def fh_printModifiers(sessionSlot):

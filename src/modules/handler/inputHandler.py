@@ -36,11 +36,11 @@ def fh_getChoiceInput(promptMesage: str, choices: dict, renderMenu: bool = False
     """
     if renderMenu:
         actions = "\n".join([f'{idx + 1}: {desc}' for idx, desc in enumerate(choices.values())])
-        fullPrompt = f'{promptMesage}\n{actions}\nSelect a option (0: Cancel): '
+        fullPrompt = f'{promptMesage}\n{actions}\n选择一个选项（0：取消）：'
     else:
         actions = " | ".join([f'{idx + 1}: {desc}' for idx, desc in enumerate(choices.values())])
         if zeroCancel or softCancel:
-            fullPrompt = f'{promptMesage} (0: Cancel | {actions}): '
+            fullPrompt = f'{promptMesage}（0：取消 |{actions}): '
         else:
             fullPrompt = f'{promptMesage} ({actions}): '
 
@@ -86,10 +86,10 @@ def fh_getIntegerInput(promptMessage: str, minBound: int, maxBound: int, zeroCan
     """
     if zeroCancel:
         minBound = 0
-        fullPrompt = f'{promptMessage} (0: Cancel | 1 - {maxBound} | "skip"): ' if allowSkip else f'{promptMessage} (0: Cancel | 1 - {maxBound}): '
+        fullPrompt = f'{promptMessage}（0：取消 | 1 -{maxBound} | "skip"): ' if allowSkip else f'{promptMessage}（0：取消 | 1 -{maxBound}): '
     if softCancel: 
         minBound = 0
-        fullPrompt = f'{promptMessage} (0: Save & Cancel | 1 - {maxBound} | "skip"): ' if allowSkip else f'{promptMessage} (0: Save & Cancel | 1 - {maxBound}): '
+        fullPrompt = f'{promptMessage}（0： 保存 & 取消 | 1 -{maxBound} | "skip"): ' if allowSkip else f'{promptMessage}（0： 保存 & 取消 | 1 -{maxBound}): '
     else:
         fullPrompt = f'{promptMessage} ({minBound} - {maxBound}): '
 
@@ -111,7 +111,7 @@ def fh_getIntegerInput(promptMessage: str, minBound: int, maxBound: int, zeroCan
             if minBound <= value <= maxBound:
                 return str(value)
             
-        cFormatter.print(Color.INFO, f'Invalid input: "{userInput}" - must be between {minBound} - {maxBound}')
+        cFormatter.print(Color.INFO, f'无效输入：”{userInput}“ - 必须介于{minBound} - {maxBound}')
 
 @staticmethod
 def fh_getCompleterInput(promptMessage: str, choices: dict, zeroCancel: bool = False, softCancel: bool = False, allowSkip: bool = False) -> str:
@@ -135,7 +135,7 @@ def fh_getCompleterInput(promptMessage: str, choices: dict, zeroCancel: bool = F
     """
     fullPrompt = f'{promptMessage}: '
     if zeroCancel or softCancel:
-        fullPrompt = f'{promptMessage} (0: Cancel): '
+        fullPrompt = f'{promptMessage}（0：取消）：'
 
     # Create a WordCompleter from the keys of choices dictionary
     completer = WordCompleter(choices.keys(), ignore_case=True)
@@ -172,4 +172,4 @@ def fh_getCompleterInput(promptMessage: str, choices: dict, zeroCancel: bool = F
                 return enumMember
         # only except that here, this indicates invalid input for choicecompleter
         except StopIteration:
-            cFormatter.print(Color.INFO, 'Invalid input.')
+            cFormatter.print(Color.INFO, '输入无效。')

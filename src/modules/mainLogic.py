@@ -283,16 +283,16 @@ class Rogue:
         """     
         while True:
             try:
-                slot = int(fh_getIntegerInput('Enter Slot', 1, 5, zeroCancel=False, softCancel=False, allowSkip=False))
+                slot = int(fh_getIntegerInput('进入存档', 1, 5, zeroCancel=False, softCancel=False, allowSkip=False))
 
                 if self.editOffline:
 
                     if not os.path.exists('./trainer.json'):
-                        cFormatter.print(Color.INFO, 'Trainer.json does not exist.')
+                        cFormatter.print(Color.INFO, 'Trainer.json不存在。')
                         continue
                     
                     if not os.path.exists(f'./slot_{slot}.json'):
-                        cFormatter.print(Color.INFO, f'slot_{slot} does not exist.')
+                        cFormatter.print(Color.INFO, f'slot_{slot} 不存在')
                         continue
 
                     gameData = self.__fh_loadDataFromJSON('trainer.json')
@@ -312,7 +312,7 @@ class Rogue:
                 self.f_createBackup(gameData, slotData)
                 break
             except OperationCancel:
-                cFormatter.print(Color.INFO, 'Wrong input.')
+                cFormatter.print(Color.INFO, '输入错误。')
                 continue
 
 
@@ -358,21 +358,21 @@ class Rogue:
                         # data = json.loads(decompressed_data)
                         data = json.loads(response)
                         self.__fh_writeJSONData(data, 'trainer.json', False)
-                        cFormatter.print(Color.GREEN, 'Successfully fetched trainer data.')
+                        cFormatter.print(Color.GREEN, '已成功获取训练家数据。')
                         return data
                     except json.JSONDecodeError as e:
                         cFormatter.print(Color.WARNING, f"Error decoding JSON: {e}", isLogging=True)
-                        cFormatter.print(Color.WARNING, f"Unexpected response format: {response}", isLogging=True)
+                        cFormatter.print(Color.WARNING, f"意外响应格式：{response}", isLogging=True)
                 else:
-                    cFormatter.print(Color.WARNING, "The request appeared to be empty.")
+                    cFormatter.print(Color.WARNING, "该请求似乎是空的。")
             except Exception as e:
-                cFormatter.print(Color.CRITICAL, f"Error in function get_trainer_data(): {e}", isLogging=True)
+                cFormatter.print(Color.CRITICAL, f"函数 get_trainer_data（） 中的错误：{e}", isLogging=True)
         else:
             try:
                 response = self.session.get(f'{self.TRAINER_DATA_URL}{self.clientSessionId}', headers=self.headers, verify=config.useCaCert)
                 response.raise_for_status()
                 if response.content:  # Check if the response content is not empty
-                    cFormatter.print(Color.GREEN, 'Successfully fetched trainer data.')
+                    cFormatter.print(Color.GREEN, '已成功获取训练家数据。')
                     data = response.json()
                     self.trainerId = data.get('trainerId')
                     self.secretId = data.get('secretId')
@@ -381,7 +381,7 @@ class Rogue:
                 else:
                     return handle_error_response(response)
             except requests.RequestException as e:
-                cFormatter.print(Color.DEBUG, f'Error fetching trainer data. Please restart the tool. \n {e}', isLogging=True)
+                cFormatter.print(Color.DEBUG, f'获取训练家数据时出错。请重新启动该工具。\n{e}', isLogging=True)
 
     # TODO IMPORTNAT: Simplify
     def f_getSlotData(self, slot: int = 1) -> Optional[Dict[str, Any]]:
@@ -1103,17 +1103,17 @@ class Rogue:
         slotData = self.__fh_loadDataFromJSON(filename)
 
         if slotData['gameMode'] == 3:
-            cFormatter.print(Color.BRIGHT_YELLOW, 'Cannot edit this property on Daily Runs.')
+            cFormatter.print(Color.BRIGHT_YELLOW, '无法在每日挑战中编辑此属性。')
             return
 
         options = [
-            '1: Change pokemon',
-            '2: Set it shiny',
-            '3: Set Level',
-            '4: Set Luck',
-            '5: Set IVs',
-            '6: Change a move on a pokemon in your team',
-            '7: Change nature of a pokemon in your team'
+            '1: 修改宝可梦种族',
+            '2: 变闪',
+            '3: 设置等级',
+            '4: 设置幸运值',
+            '5: 设置个体值',
+            '6: 修改其中一只宝可梦的招式',
+            '7: 修改其中一只中宝可梦的性格'
         ]
 
         # Reverse Names to IDs
@@ -1153,7 +1153,7 @@ class Rogue:
             currentParty.append(pokeInfoDict)
 
         # Print the current party with detailed information
-        cFormatter.print(Color.WHITE, 'Current Pokemon (species):')
+        cFormatter.print(Color.WHITE, '当前宝可梦(物种):')
         cFormatter.fh_printSeperators(55, '-', Color.DEBUG)
         for i, pokeInfoDict in enumerate(currentParty, start=1):
             shinyStatus = f"Shiny {pokeInfoDict['variant']}" if pokeInfoDict["shiny"] else "Not Shiny"
@@ -1162,29 +1162,29 @@ class Rogue:
 
 
         # Select a pokemon
-        selectedPartySlot = int(fh_getIntegerInput('Select the party slot of the Pokemon you want to edit', 1, len(currentParty), zeroCancel=True)) -1
+        selectedPartySlot = int(fh_getIntegerInput('选择您要编辑的宝可梦的队伍插槽', 1, len(currentParty), zeroCancel=True)) -1
         selectedPokemon = currentParty[selectedPartySlot]
         #selectedPokemonMoves = [moveNamesByIDHelper[str(move["moveId"])] for move in game_data['party'][party_num]['moveset']]
 
         # Start loop and present options
         while True:
             try:
-                header = cFormatter.fh_centerText(f' Selected Pokemon: {selectedPokemon['name']} ', length=55, fillChar='-')
+                header = cFormatter.fh_centerText(f'选择宝可梦：{selectedPokemon['name']} ', length=55, fillChar='-')
                 cFormatter.print(Color.INFO, header)
                 cFormatter.print(Color.WHITE, '\n'.join(options))
                 cFormatter.fh_printSeperators(55, '-', Color.DEBUG)
 
-                command = int(fh_getIntegerInput('Choose an action', 1, len(options), softCancel=True))
+                command = int(fh_getIntegerInput('选择操作', 1, len(options), softCancel=True))
                 if command < 1 or command > 7:
-                    cFormatter.print(Color.INFO, 'Invalid input.')
+                    cFormatter.print(Color.INFO, '输入无效。')
                     return
 
                 if command == 1:
-                    header = cFormatter.fh_centerText(' Change to another pokemon ', length=55, fillChar='-')
+                    header = cFormatter.fh_centerText('切换宝可梦', length=55, fillChar='-')
                     cFormatter.print(Color.DEBUG, header)
                     self.fh_completerInfo()
                     inputValue = fh_getCompleterInput(
-                            promptMessage='Write either the ID or the Name of the Pokemon',
+                            promptMessage='写下口袋妖怪的 ID 或名称',
                             choices={**{member.name.lower(): member for member in self.appData.pokemonNameByID}, 
                                     **{str(member.value): member for member in self.appData.pokemonNameByID}},
                             softCancel=True
@@ -1807,43 +1807,43 @@ class Rogue:
         currentEggs = trainerData.get('eggs', [])
         currentAmount = len(currentEggs)
 
-        header = cFormatter.fh_centerText(' Egg Generator ', 55, '-')
+        header = cFormatter.fh_centerText('创建蛋', 55, '-')
         cFormatter.print(Color.DEBUG, header)
         self.fh_completerInfo(False)
 
         if currentAmount >= 99:
             userInput = fh_getChoiceInput(
-                'You already have the total max of eggs, replace eggs?',
+                '你已经有了最大的蛋，替换蛋吗?',
                 {'1': 'Replace'}, zeroCancel=True
             )
         else:
-            cFormatter.print(Color.INFO, f'You already have ({currentAmount}) eggs')
+            cFormatter.print(Color.INFO, f'你已经有{currentAmount}个蛋了')
             userInput = fh_getChoiceInput(
-                'Should we add or replace?',
+                '增加还是替换?',
                 {'1': 'Replace', '2': 'Add'}, zeroCancel=True
             )
 
         maxAmount = 99 - currentAmount if userInput == '2' else 99
 
-        count = int(fh_getIntegerInput('How many eggs do you want to generate?', 0, maxAmount, zeroCancel=True))
+        count = int(fh_getIntegerInput('新增多少个蛋', 0, maxAmount, zeroCancel=True))
 
         tier = int(fh_getChoiceInput(
-            'What tier should the eggs have?',
-            {'1': 'Common', '2': 'Rare', '3': 'Epic', '4': 'Legendary', '5': 'Manaphy'},
+            '蛋的等级',
+            {'1': '普通', '2': '稀有', '3': '史诗', '4': '传说', '5': '玛纳霏'},
             zeroCancel=True, renderMenu=True
         )) - 1
 
         gachaType = int(fh_getChoiceInput(
-            'What gacha type do you want to have?',
-            {'1': 'MoveGacha', '2': 'LegendaryGacha', '3': 'ShinyGacha'}, zeroCancel=True, renderMenu=True
+            '你想拥有什么扭蛋机类型？',
+            {'1': '招式机', '2': '神兽机', '3': '闪光机'}, zeroCancel=True, renderMenu=True
         )) - 1  # Adjusting for 0-based index
 
-        hatchWaves = fh_getIntegerInput('After how many waves should they hatch?', 0, 100, zeroCancel=True)
+        hatchWaves = fh_getIntegerInput('经过多少波后它们才会孵化?', 0, 100, zeroCancel=True)
         variantTier = 0
         # Get hidden ability preference as boolean
-        isShiny: bool = fh_getChoiceInput('Do you want it to be shiny?', {'1': 'Yes', '2': 'No'}, zeroCancel=True) == '1'
+        isShiny: bool = fh_getChoiceInput('你想让它闪吗?', {'1': 'Yes', '2': 'No'}, zeroCancel=True) == '1'
         if isShiny:
-            variantTier: int = int(fh_getIntegerInput('Which shiny tier?', 0, 3))
+            variantTier: int = int(fh_getIntegerInput('几级闪?', 0, 3))
 
         eggDictionary = eggLogic.constructEggs(tier, gachaType, hatchWaves, count, isShiny, variantTier)
 
@@ -1853,7 +1853,7 @@ class Rogue:
             trainerData['eggs'].extend(eggDictionary)
 
         self.__fh_writeJSONData(trainerData, 'trainer.json')
-        raise OperationSuccessful(f'{count} eggs successfully generated.')
+        raise OperationSuccessful(f'{count}成功生成蛋。')
 
     @handle_operation_exceptions
     def f_unlockAllCombined(self) -> None:
@@ -1891,16 +1891,16 @@ class Rogue:
         """
         gameData = self.__fh_loadDataFromJSON('trainer.json')
 
-        header = cFormatter.fh_centerText(' Edit Account Stats ', 55, '-')
+        header = cFormatter.fh_centerText('编辑帐户统计信息', 55, '-')
         cFormatter.print(Color.DEBUG, header)
 
 
         choices = {
-            'random': 'Randomize all values',
-            'manual': 'Manually enter values for a single attribute',
-            'loop': 'Manually enter values for all attributes in a loop'
+            'random': '随机化所有值',
+            'manual': '手动输入单个属性的值',
+            'loop': '手动输入循环中所有属性的值'
         }
-        action = fh_getChoiceInput('Choose which action', choices, renderMenu=True, zeroCancel=True)
+        action = fh_getChoiceInput('选择哪个操作', choices, renderMenu=True, zeroCancel=True)
         cFormatter.fh_printSeperators(30, '-')
 
         encounters = random.randint(100000, 200000)
@@ -1961,18 +1961,18 @@ class Rogue:
             while True:
                 try:
                     inputValue = fh_getCompleterInput(
-                        'Choose attribute to edit:',
+                        '选择要编辑的属性：',
                         {**optionList, **nameToKey},
                         softCancel=True
                     )
 
-                    promptMessage = f'Enter new value for {inputValue} (Current: {gameData["gameStats"].get(inputValue, 0)}): '
+                    promptMessage = f'输入{inputValue}的新值(当前:{gameData["gameStats"].get(inputValue, 0)}): '
                     newValue = fh_getIntegerInput(promptMessage, 0, 999999, softCancel=True)
 
                     gameData["gameStats"][inputValue] = newValue
                     changedItems.append(f"{inputValue}: {newValue}")
                     changed = True
-                    cFormatter.print(Color.DEBUG, f'{inputValue} queued for update.')
+                    cFormatter.print(Color.DEBUG, f'{inputValue}排队等待更新。')
                 except OperationSoftCancel:
                     break
 
@@ -1981,7 +1981,7 @@ class Rogue:
             for key in keysToUpdate:
                 try:
                     while True:
-                        promptMessage = f'Enter new value for {key} ({gameData["gameStats"].get(key, 0)}): '
+                        promptMessage = f'输入新值 {key} ({gameData["gameStats"].get(key, 0)}): '
                         newValue = fh_getIntegerInput(promptMessage, 0, 999999, softCancel=True)
                         gameData["gameStats"][key] = newValue
                         changedItems.append(f"{key}: {newValue}")
@@ -1992,12 +1992,12 @@ class Rogue:
 
         if changed:
             self.__fh_writeJSONData(gameData, 'trainer.json')
-            cFormatter.print(Color.YELLOW, 'Changes saved:')
+            cFormatter.print(Color.YELLOW, '保存的更改：')
             for item in changedItems:
                 cFormatter.print(Color.INFO, item)
-            raise OperationSuccessful('Successfully written Account Stats. For more information scroll up.')
+            raise OperationSuccessful('成功编写帐户统计信息。有关更多信息，请向上滚动。')
         else:
-            fh_appendMessageBuffer(Color.YELLOW, 'No changes made.')
+            fh_appendMessageBuffer(Color.YELLOW, '未进行任何更改。')
 
     @handle_operation_exceptions
     def f_editHatchWaves(self) -> None:
@@ -2034,7 +2034,7 @@ class Rogue:
             minBound = 0
             maxBound = 99
             eggAmount = len(trainerData['eggs'])
-            prompt = f'You currently have ({eggAmount}) eggs, after how many waves should they hatch?'
+            prompt = f'你现在有({eggAmount})个蛋，经过多少波后它们应该孵化?'
             hatchWaves = fh_getIntegerInput(prompt, minBound, maxBound, zeroCancel=True)
 
             for egg in trainerData['eggs']:
@@ -2044,13 +2044,13 @@ class Rogue:
             self.__fh_writeJSONData(trainerData, 'trainer.json')
             changed = True
         else:
-            fh_appendMessageBuffer(Color.INFO, 'You have no eggs to hatch.')
+            fh_appendMessageBuffer(Color.INFO, '你没有蛋可以孵化。')
             return
         
         if changed:
-            raise OperationSuccessful(f'Egg-hatchwaves set to {hatchWaves}')
+            raise OperationSuccessful(f'蛋孵化波数设置为{hatchWaves}')
         else:
-            fh_appendMessageBuffer(Color.YELLOW, 'No changes made.')
+            fh_appendMessageBuffer(Color.YELLOW, '未进行任何更改。')
             
     @handle_operation_exceptions
     def f_submenuItemEditor(self):
@@ -2062,13 +2062,13 @@ class Rogue:
     def f_changeSaveSlot(self):
         while True:
             newSlot = fh_getIntegerInput(
-                'Select a slot: ', 1, 5,
+                '选择存档：', 1, 5,
                 zeroCancel=True
             )
             if self.editOffline or config.debug:
                 filename = f'slot_{newSlot}.json'
                 if int(self.slot) == int(newSlot):
-                    cFormatter.print(Color.ERROR, f'Slot {filename} already loaded.')
+                    cFormatter.print(Color.ERROR, f'存档{filename}已加载。')
                 else:
                     if self.editOffline:
                         # Construct the filename
@@ -2076,10 +2076,10 @@ class Rogue:
                         if os.path.exists(filename):
                             self.slot = newSlot
                         else:
-                            cFormatter.print(Color.ERROR, f'File {filename} does not exist. Please select another slot.')
+                            cFormatter.print(Color.ERROR, f'文件{filename}不存在。请选择另一个存档。')
             else:
                 self.f_getSlotData(int(newSlot))
-            raise OperationSuccessful(f'Changed slot to slot_{newSlot}.json')
+            raise OperationSuccessful(f'将存档更改为slot_{newSlot}.json')
  
     @handle_operation_exceptions
     def fh_printEnums(self, enum_type: str) -> None:
@@ -2106,7 +2106,7 @@ class Rogue:
         }
 
         if enum_type not in enums_mapping:
-            raise ValueError(f"Invalid enum_type: {enum_type}. Valid types are: {', '.join(enums_mapping.keys())}")
+            raise ValueError(f"无效的enum_type: {enum_type}。有效的类型有:{', '.join(enums_mapping.keys())}")
 
         enums = enums_mapping[enum_type]
         formatted_enums = [f'{member.value}: {member.name}' for member in enums]
@@ -2143,8 +2143,8 @@ class Rogue:
     @staticmethod
     def fh_completerInfo(id=True):
         if id:
-            cFormatter.print(Color.DEBUG, 'You can type either the name or ID. 0 will cancel, but save done changes.')
-        cFormatter.print(Color.DEBUG, 'Type `exit` or `cancel` or press STRG+C to cancel without saves.')
+            cFormatter.print(Color.DEBUG, '您可以键入名称或ID。0将取消，但保存已完成的更改。')
+        cFormatter.print(Color.DEBUG, '键入“exit”或“cancel”或按ctrl+C取消而不保存。')
 
     def __fh_writeJSONData(self, data: Dict[str, Any], filename: str, showSuccess: bool = False) -> None:
         """
@@ -2171,9 +2171,9 @@ class Rogue:
             with open(filename, 'w') as f:
                 json.dump(data, f, indent=4)
                 if showSuccess:
-                    cFormatter.print(Color.BRIGHT_GREEN, 'Written to local data. Do not forget to apply to server when done!')
+                    cFormatter.print(Color.BRIGHT_GREEN, '写入本地数据。完成后不要忘记应用到服务器!')
         except Exception as e:
-            cFormatter.print(Color.CRITICAL, f'Error in function __write_data(): {e}', isLogging=True)
+            cFormatter.print(Color.CRITICAL, f'函数__write_data()出错:{e}', isLogging=True)
         
     def __fh_loadDataFromJSON(self, file_path: str) -> Dict[str, Any]:
         """
@@ -2201,4 +2201,4 @@ class Rogue:
             with open(file_path, 'r') as f:
                 return json.load(f)
         except Exception as e:
-            cFormatter.print(Color.CRITICAL, f'Error in function __load_data(): {e}', isLogging=True)
+            cFormatter.print(Color.CRITICAL, f'函数 __load_data（） 中的错误：{e}', isLogging=True)

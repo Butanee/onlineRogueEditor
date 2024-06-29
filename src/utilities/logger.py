@@ -36,6 +36,8 @@ from logging.handlers import TimedRotatingFileHandler
 # Provides a logging handler that rotates log files at specified intervals (e.g., weekly).
 
 from datetime import datetime
+
+
 # Provides date and time manipulation capabilities, particularly for timestamping log files.
 
 class CustomFilter(logging.Filter):
@@ -47,8 +49,10 @@ class CustomFilter(logging.Filter):
     :return: Whether the log record should be included.
     :rtype: bool
     """
+
     def filter(self, record):
         return "data={\"value\":" not in record.getMessage()
+
 
 class CustomLogger:
     """
@@ -83,6 +87,7 @@ class CustomLogger:
         - logging.handlers: Provides a handler that rotates log files at specified intervals.
         - datetime: Manipulates dates and times for timestamping log files.
     """
+
     def __init__(self):
         # Create and configure file handler
         # Define the path to the logs directory in the current working directory
@@ -156,6 +161,7 @@ class CustomLogger:
         for handler in rootLogger.handlers:
             if isinstance(handler, TimedRotatingFileHandler):
                 handler.setLevel(logging.DEBUG)
+
 
 if __name__ == '__main__':
     logger = CustomLogger()

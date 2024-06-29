@@ -110,11 +110,11 @@ def f_generateConverted(modifiers: List[Modifier], output_file: str):
     sortedModifier.sort(key=sorting_key)
 
     with open(output_file, 'w') as file:
-        file.write("# This file contains converted modifiers\n")
+        file.write("# 此文件包含转换后的道具\n")
         for uniqueName, modifier in sortedModifier:
             file.write(modifier.to_python_code(uniqueName) + "\n")
 
-    print(f"Converted modifiers saved to '{output_file}'")
+    print(f"转换后的道具保存为”{output_file}'")
 
 # Function to process all JSON files in the current directory
 def processJSONFiles():
@@ -135,7 +135,7 @@ def processJSONFiles():
         # Generate converted_.py with modifiers in Python code format
         f_generateConverted(modifiers, converterOutputFile)
 
-        print(f"Modifiers data extracted from '{jsonFile}', saved to '{extractedOutputFile}', and converted to '{converterOutputFile}'")
+        print(f"从'{jsonFile}提取道具数据', 保存至'{extractedOutputFile}', 并转换至'{converterOutputFile}'")
 
 # Entry point of the script
 def main():
